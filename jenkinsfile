@@ -1,31 +1,38 @@
 pipeline {
-    agent any
+    agent none
 
     stages {
-        stage('test') {
-            steps {
-
-                echo 'testing  ...'
-                sh '''
-                ./mvn test
-                '''
+        stage('Test') {
+            agent {
+                docker {
+                    image 'maven:3.9.6-eclipse-temurin-21-alpine'
+                    reuseNode true
+                }
             }
-
-        }
-        stage('build'){
-           steps{
-              echo 'building ...'
-              sh'''
-                ./mvn clean package -DskipTests
-              '''
-           }
+            steps {
+                echo 'Testing  ...'
+                sh 'mvn test'
+            }
         }
 
+        stage('Build') {
+            agent {
+                docker {
+                    image 'maven:3.9.6-eclipse-temurin-21-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                echo 'Building ...'
+                sh 'mvn clean package -DskipTests'
+            }
+        }
     }
 
     post {
         success {
-            archiveArtifacts artifacts: 'build/**'
+
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
     }
 }
