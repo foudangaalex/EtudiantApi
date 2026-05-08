@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002
+      author: fouda
+      preConditions:
+        dbms:
+          type: postgresql
+  - changes:
+      - insert:
+          tableName: student
+          columns:
+            - column: {name: first_name, value: "fouda nga"}
+            - column: {name: last_name, value: "alex"}
+            - column: {name: email, value: "foudangaalex@gmail.com"}
+
+

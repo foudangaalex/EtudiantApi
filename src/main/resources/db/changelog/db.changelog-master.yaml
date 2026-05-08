@@ -1,4 +1,6 @@
 databaseChangeLog:
     - include:
         file: db/changelog/001-create-table-student.yaml
+    - include:
+        file: db/changelog/002-insert-table-student-data.yaml
 
