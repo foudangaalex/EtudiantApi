@@ -1,10 +1,13 @@
 pipeline {
     agent any
+<<<<<<< HEAD
 
     environment {
         // Caches your Maven dependencies inside the Jenkins workspace directory
         MAVEN_OPTS = "-Dmaven.repo.local=${WORKSPACE}/.m2/repository"
     }
+=======
+>>>>>>> 736dcf066020b0871adfcf32168f87c1525581ec
 
     stages {
         stage('Test') {
