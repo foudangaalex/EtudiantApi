@@ -1,0 +1,18 @@
+server:
+  port: ${PORT}
+  servlet:
+    context-path: ${API}
+spring:
+  application:
+    name: EtudiantApi
+  liquibase:
+    enabled: true
+    change-log: 'classpath:db/changelog/db.changelog-master.yaml'
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/school'
+    username: postgres
+    password: mdp123
+  jpa:
+    hibernate:
+      ddl-auto: none
+

@@ -5,7 +5,7 @@ databaseChangeLog:
       preConditions:
         - onFail: MARK_RAN
           dbms:
-            type: postgresql
+            type: postgresql,h2
       changes:
         - createTable:
             tableName: student

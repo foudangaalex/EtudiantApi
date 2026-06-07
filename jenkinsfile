@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        // Caches your Maven dependencies inside the Jenkins workspace directory
+        MAVEN_OPTS = "-Dmaven.repo.local=${WORKSPACE}/.m2/repository"
+    }
+
     stages {
         stage('Test') {
             agent {
@@ -10,7 +15,9 @@ pipeline {
                 }
             }
             steps {
-                echo 'Testing  ...'
+                echo 'Testing Application...'
+                // Use H2 profile if you configured H2 in src/test/resources/application-test.properties
+                // sh 'mvn test -Dspring.profiles.active=test'
                 sh 'mvn test'
             }
         }
@@ -23,7 +30,7 @@ pipeline {
                 }
             }
             steps {
-                echo 'Building ...'
+                echo 'Building Executable JAR...'
                 sh 'mvn clean package -DskipTests'
             }
         }
@@ -31,8 +38,13 @@ pipeline {
 
     post {
         success {
-
-            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            echo 'Archiving build artifacts...'
+            // Matches your pom.xml <finalName>student</finalName>
+            archiveArtifacts artifacts: 'target/student.jar', fingerprint: true
+        }
+        always {
+            // Optional: cleans up workspace files to save disk space on your Jenkins agent
+            cleanWs()
         }
     }
 }
